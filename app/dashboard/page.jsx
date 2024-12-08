@@ -1,29 +1,31 @@
 "use client";
 
-export default function Dashboard() {
-  return (
-    /*<div className="dashboard-container">
-      <aside className="sidebar">
-        <h2>Minha Rede Social</h2>
-        <nav>
-          <ul>
-            <li><a href="#">Feed</a></li>
-            <li><a href="#">Mensagens</a></li>
-            <li><a href="#">Notificações</a></li>
-            <li><a href="#">Perfil</a></li>
-          </ul>
-        </nav>
-      </aside>
+import { useState } from "react";
 
-      <main className="main-content">
-        <header className="dashboard-header">
-          <h1>Bem-vindo ao GoMove!</h1>
-        </header>
-        <section className="content">
-          <p>Aqui é o início da maior comunidade de esportes do mundo!</p>
-        </section>
-      </main>
-    </div>*/
+export default function Dashboard() {
+  const [showCommentInput, setShowCommentInput] = useState(false); // Estado para exibir o campo de comentário
+  const [commentText, setCommentText] = useState(""); // Estado para armazenar o texto do comentário
+
+  // Função para lidar com o clique no botão "Gostei"
+  const handleLikeClick = (event) => {
+    const likeCountElement = event.target.querySelector(".like-count");
+    if (likeCountElement) {
+      const currentCount = parseInt(likeCountElement.textContent, 10);
+      likeCountElement.textContent = currentCount + 1;
+    }
+  };
+
+  // Função para lidar com o clique no botão "Comentar"
+  const handleCommentClick = () => {
+    setShowCommentInput(!showCommentInput); // Alterna entre mostrar/esconder o campo de input
+  };
+
+  // Função para atualizar o texto do comentário
+  const handleCommentChange = (event) => {
+    setCommentText(event.target.value);
+  };
+
+  return (
     <div className="container">
       {/* Cabeçalho */}
       <header className="navbar">
@@ -52,10 +54,10 @@ export default function Dashboard() {
             <p>Descrição</p>
             <div className="stats">
               <p>
-                73 <span>Visualizações</span>
+                 <span>Visualizações</span>
               </p>
               <p>
-                35 <span>postagens</span>
+                 <span>postagens</span>
               </p>
             </div>
           </div>
@@ -78,16 +80,29 @@ export default function Dashboard() {
               vida mais ativa e equilibrada.
             </p>
             <div className="post-actions">
-              <button className="color">
+              <button className="color" onClick={handleLikeClick}>
                 Gostei (<span className="like-count">0</span>)
               </button>
-              <button className="color">
+              <button className="color" onClick={handleCommentClick}>
                 Comentar (<span className="comment-count">0</span>)
               </button>
               <button className="color">
                 Compartilhar (<span className="share-count">0</span>)
               </button>
             </div>
+
+            {/* Campo de input para comentários */}
+            {showCommentInput && (
+              <div className="comment-input">
+                <input
+                  type="text"
+                  placeholder="Escreva seu comentário..."
+                  value={commentText}
+                  onChange={handleCommentChange}
+                  className="comment-box"
+                />
+              </div>
+            )}
           </div>
         </section>
 
